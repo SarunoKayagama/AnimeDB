@@ -1,0 +1,14 @@
+﻿@model AnimeDB.Models.Data.Anime
+@{
+    ViewData["Title"] = "Index";
+}
+<a asp-action="Create">Добавить аниме</a>
+<table class="table">
+    <tr><td>Ид</td><td>Название аниме</td><td>Тип</td><td>Стутус</td><td>Дата начала показа</td><td>Дата конца показа</td><td>Возрастной рейтинг</td><td>Лизензор</td><td>Студия</td><td>Авторы</td><td>Персонажи</td></tr>
+    @foreach (var item in Model)
+    {
+        <tr><td>@item.Name</td><td>@item.Age</td></tr>
+    }
+</table>
+<h1>Index</h1>
+
