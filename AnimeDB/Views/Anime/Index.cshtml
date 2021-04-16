@@ -1,14 +1,67 @@
-﻿@model AnimeDB.Models.Data.Anime
+﻿@model List<AnimeDB.Models.Data.Anime>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Список издателей";
 }
-<a asp-action="Create">Добавить аниме</a>
-<table class="table">
-    <tr><td>Ид</td><td>Название аниме</td><td>Тип</td><td>Стутус</td><td>Дата начала показа</td><td>Дата конца показа</td><td>Возрастной рейтинг</td><td>Лизензор</td><td>Студия</td><td>Авторы</td><td>Персонажи</td></tr>
-    @foreach (var item in Model)
-    {
-        <tr><td>@item.Name</td><td>@item.Age</td></tr>
-    }
-</table>
-<h1>Index</h1>
 
+<div class="modal" tabindex="-1" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content" id="deleteContent">
+
+        </div>
+    </div>
+</div>
+
+<h1>Список издателей</h1>
+
+<a asp-controller="Distributor" asp-action="Create" class="btn btn-primary">Добавить издателя</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Название</th>
+            <th scope="col">Тип</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Дата начала показа</th>
+            <th scope="col">Дата конца показа</th>
+            <th scope="col">Возрастной рейтинг</th>
+            <th scope="col">Лицензор</th>
+            <th scope="col">Студия</th>
+            <th scope="col">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.Id</td>
+            <td><a asp-controller="Anime" asp-action="Info" asp-route-id="@item.Id">@item.Name </a></td>
+            <td>@item.Name</td>
+            @*<td>@item.TypeId</td>
+            <td>@item.StatusId</td>*@
+            <td>@item.StartDate</td>
+            <td>@item.EndDate</td>
+            @*<td>@item.AgeRatingId</td>
+            <td>@item.LicensorsId</td>
+            <td>@item.StudioID</td>*@
+            <td>
+                <div class="btn-group">
+                    <a asp-controller="Distributor" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-dark">Изменить</a>
+                    <a href="#" data-id="@item.Id" class="btn btn-danger deleteDistributor" data-toggle="modal" data-target="#deleteModal">Удалить</a>
+                </div>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.deleteDistributor').on('click', function (e) {
+                e.preventDefault();
+                let id = $(this).attr("data-id");
+                $('#deleteContent').load("/Distributor/Delete?id=" + encodeURIComponent(id));
+            });
+        });
+    </script>
+}
